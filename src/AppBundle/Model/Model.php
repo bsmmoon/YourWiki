@@ -16,6 +16,9 @@ class Model
             case "add":
                 $this->addCommand($input["parameters"]);
                 break;
+            case "delete":
+                $this->deleteCommand($input["parameters"]);
+                break;
             default:
          }
     }
@@ -25,11 +28,22 @@ class Model
         return $this->data;
     }
 
+    private function deleteCommand($parameters)
+    {
+        $title = $parameters["title"];
+        if ($this->getIndex($title) === -1) {
+            return;
+        }
+        $index = $this->index[strtolower($title)];
+        unset($this->index[$title]);
+        unset($this->data[$index]);
+    }
+
     private function addCommand($parameters)
     {
         if (!$this->hasParameter("title", $parameters)) {
             return;
-        } else if ($this->hasIndex($parameters["title"])) {
+        } else if ($this->getIndex($parameters["title"]) !== -1) {
             return;
         }
         $this->data[] = $parameters;
@@ -43,9 +57,18 @@ class Model
         ksort($this->index);
     }
 
-    private function hasIndex($obj)
+    private function getIndex($obj)
     {
         $obj = strtolower($obj);
+        if (!$this->hasIndex($obj)) {
+            return -1;
+        } else {
+            return $this->index[$obj];
+        }
+    }
+
+    private function hasIndex($obj)
+    {
         return array_key_exists($obj, $this->index);
     }
 
