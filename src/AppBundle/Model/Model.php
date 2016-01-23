@@ -29,7 +29,7 @@ class Model
     {
         if (!$this->hasParameter("title", $parameters)) {
             return;
-        } else if ($this->findIndexOf($parameters["title"])) {
+        } else if ($this->hasIndex($parameters["title"])) {
             return;
         }
         $this->data[] = $parameters;
@@ -43,7 +43,7 @@ class Model
         ksort($this->index);
     }
 
-    private function findIndexOf($obj)
+    private function hasIndex($obj)
     {
         $obj = strtolower($obj);
         return array_key_exists($obj, $this->index);
