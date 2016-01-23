@@ -59,14 +59,41 @@ class ModelTest extends WebTestCase
             ],
         ]);
         $model->run([
+            "command" => "add",
+            "parameters" => [
+                "title" => "phpunit",
+                "tag" => ["php", "programming", "unit test", ],
+            ],
+        ]);
+        $model->run([
             "command" => "delete",
             "parameters" => [
                 "title" => "TDD"
             ],
         ]);
+        $model->run([
+            "command" => "delete",
+            "parameters" => [
+                "title" => "phpunit"
+            ],
+        ]);
+        $model->run([
+            "command" => "add",
+            "parameters" => [
+                "title" => "TDD",
+            ],
+        ]);
+        $model->run([
+            "command" => "add",
+            "parameters" => [
+                "title" => "phpunit",
+                "tag" => ["php", "programming", "unit test", ],
+            ],
+        ]);
 
         $data = $model->getData();
 
-        $this->assertEquals(0, sizeof($data));
+        $this->assertEquals(2, sizeof($data));
+        var_dump($data);
     }
 }

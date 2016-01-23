@@ -34,9 +34,9 @@ class Model
         if (!$this->hasIndex($title)) {
             return;
         }
-        $index = $this->index[strtolower($title)];
-        unset($this->index[$title]);
-        unset($this->data[$index]);
+        $index = $this->getIndex($title);
+        $this->deleteIndex($title);
+        $this->deleteData($index);
     }
 
     private function addCommand($parameters)
@@ -53,6 +53,17 @@ class Model
         $this->insertIndex($title);
     }
 
+    private function deleteIndex($title)
+    {
+        $title = strtolower($title);
+        unset($this->index[$title]);
+    }
+
+    private function deleteData($index)
+    {
+        unset($this->data[$index]);
+    }
+
     private function insertIndex($key)
     {
         $key = strtolower($key);
@@ -63,11 +74,7 @@ class Model
     private function getIndex($obj)
     {
         $obj = strtolower($obj);
-        if (!$this->hasIndex($obj)) {
-            return -1;
-        } else {
-            return $this->index[$obj];
-        }
+        return $this->index[$obj];
     }
 
     private function hasIndex($obj)
