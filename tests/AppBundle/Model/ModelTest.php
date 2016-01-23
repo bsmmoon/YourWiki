@@ -21,8 +21,16 @@ class ModelTest extends WebTestCase
                 "title" => "TDD",
             ],
         ]);
+        $model->run([
+            "command" => "add",
+            "parameters" => [
+                "title" => "phpunit",
+                "tag" => ["php", "programming", "unit test", ],
+            ],
+        ]);
         $data = $model->getData();
 
         $this->assertEquals($data[0]["title"], "TDD");
+        $this->assertEquals(sizeof($data[1]["tag"]), 3);
     }
 }
