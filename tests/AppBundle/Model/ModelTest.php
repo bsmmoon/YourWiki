@@ -41,10 +41,11 @@ class ModelTest extends WebTestCase
                 "tag" => ["programming", ],
             ],
         ]);
+
         $data = $model->getData();
 
+        $this->assertEquals(sizeof($data), 2);
         $this->assertEquals($data[0]["title"], "TDD");
         $this->assertEquals(sizeof($data[1]["tag"]), 3);
-        $this->assertEquals(sizeof($data), 2);
     }
 }
