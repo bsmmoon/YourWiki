@@ -8,6 +8,7 @@ class Model
     {
         $this->data = [];
         $this->indexTable = [];
+        $this->largestIndex = 0;
     }
 
     public function run($input)
@@ -54,8 +55,8 @@ class Model
         if ($this->hasIndex($title)) {
             return;
         }
-        $this->data[] = $parameters;
-        $this->insertIndex($title);
+
+        $this->insertData($parameters);
     }
 
     private function deleteIndex($title)
@@ -72,8 +73,18 @@ class Model
     private function insertIndex($key)
     {
         $key = strtolower($key);
-        $this->indexTable[$key] = sizeof($this->data) - 1;
+        $index = $this->largestIndex;
+        $this->largestIndex += 1;
+        $this->indexTable[$key] = $index;
         ksort($this->indexTable);
+        return $index;
+    }
+
+    private function insertData($parameters)
+    {
+        $title = $parameters["title"];
+        $index = $this->insertIndex($title);
+        $this->data[$index] = $parameters;
     }
 
     private function getIndex($obj)

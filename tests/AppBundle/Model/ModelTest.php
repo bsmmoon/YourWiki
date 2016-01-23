@@ -96,6 +96,8 @@ class ModelTest extends WebTestCase
             ],
         ]);
 
+        $data = $model->getData();
+        
         $this->assertEquals(2, sizeof($data));
 
         $model->run([
