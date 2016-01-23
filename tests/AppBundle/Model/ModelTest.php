@@ -34,6 +34,13 @@ class ModelTest extends WebTestCase
                 "tag" => ["YOU", "ARE", "WRONG", ],
             ],
         ]);
+        $model->run([
+            "command" => "add",
+            "parameters" => [
+                "title" => "TDD",
+                "tag" => ["programming", ],
+            ],
+        ]);
         $data = $model->getData();
 
         $this->assertEquals($data[0]["title"], "TDD");
