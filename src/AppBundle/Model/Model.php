@@ -31,7 +31,7 @@ class Model
     private function deleteCommand($parameters)
     {
         $title = $parameters["title"];
-        if ($this->getIndex($title) === -1) {
+        if (!$this->hasIndex($title)) {
             return;
         }
         $index = $this->index[strtolower($title)];
@@ -43,11 +43,14 @@ class Model
     {
         if (!$this->hasParameter("title", $parameters)) {
             return;
-        } else if ($this->getIndex($parameters["title"]) !== -1) {
+        }
+
+        $title = $parameters["title"];
+        if ($this->hasIndex($title)) {
             return;
         }
         $this->data[] = $parameters;
-        $this->insertIndex($parameters["title"]);
+        $this->insertIndex($title);
     }
 
     private function insertIndex($key)
@@ -69,6 +72,7 @@ class Model
 
     private function hasIndex($obj)
     {
+        $obj = strtolower($obj);
         return array_key_exists($obj, $this->index);
     }
 
