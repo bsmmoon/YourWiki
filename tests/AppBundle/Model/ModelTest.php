@@ -44,8 +44,77 @@ class ModelTest extends WebTestCase
 
         $data = $model->getData();
 
-        $this->assertEquals(sizeof($data), 2);
-        $this->assertEquals($data[0]["title"], "TDD");
-        $this->assertEquals(sizeof($data[1]["tag"]), 3);
+        $this->assertEquals(2, sizeof($data));
+        $this->assertEquals("TDD", $data[0]["title"]);
+        $this->assertEquals(3, sizeof($data[1]["tag"]));
+    }
+
+    public function testDeleteCommand()
+    {
+        $model = new Model();
+        $model->run([
+            "command" => "add",
+            "parameters" => [
+                "title" => "TDD",
+            ],
+        ]);
+        $model->run([
+            "command" => "add",
+            "parameters" => [
+                "title" => "phpunit",
+                "tag" => ["php", "programming", "unit test", ],
+            ],
+        ]);
+        $model->run([
+            "command" => "delete",
+            "parameters" => [
+                "title" => "TDD"
+            ],
+        ]);
+        $model->run([
+            "command" => "delete",
+            "parameters" => [
+                "title" => "phpunit"
+            ],
+        ]);
+
+        $data = $model->getData();
+
+        $this->assertEquals(0, sizeof($data));
+
+        $model->run([
+            "command" => "add",
+            "parameters" => [
+                "title" => "TDD",
+            ],
+        ]);
+        $model->run([
+            "command" => "add",
+            "parameters" => [
+                "title" => "phpunit",
+                "tag" => ["php", "programming", "unit test", ],
+            ],
+        ]);
+
+        $data = $model->getData();
+        
+        $this->assertEquals(2, sizeof($data));
+
+        $model->run([
+            "command" => "delete",
+            "parameters" => [
+                "title" => "TDD"
+            ],
+        ]);
+        $model->run([
+            "command" => "delete",
+            "parameters" => [
+                "title" => "phpunit"
+            ],
+        ]);
+
+        $data = $model->getData();
+
+        $this->assertEquals(0, sizeof($data));
     }
 }
