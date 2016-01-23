@@ -77,6 +77,11 @@ class ModelTest extends WebTestCase
                 "title" => "phpunit"
             ],
         ]);
+
+        $data = $model->getData();
+
+        $this->assertEquals(0, sizeof($data));
+
         $model->run([
             "command" => "add",
             "parameters" => [
@@ -91,9 +96,23 @@ class ModelTest extends WebTestCase
             ],
         ]);
 
+        $this->assertEquals(2, sizeof($data));
+
+        $model->run([
+            "command" => "delete",
+            "parameters" => [
+                "title" => "TDD"
+            ],
+        ]);
+        $model->run([
+            "command" => "delete",
+            "parameters" => [
+                "title" => "phpunit"
+            ],
+        ]);
+
         $data = $model->getData();
 
-        $this->assertEquals(2, sizeof($data));
-        var_dump($data);
+        $this->assertEquals(0, sizeof($data));
     }
 }
