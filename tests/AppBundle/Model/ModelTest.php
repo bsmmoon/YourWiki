@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\AppBundle\Model;
+namespace AppBundle\Model;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -23,6 +23,6 @@ class ModelTest extends WebTestCase
         ]);
         $data = $model->getData();
 
-        $this->assetEquals($data[0]["title"], "TDD");
+        $this->assertEquals($data[0]["title"], "TDD");
     }
 }
