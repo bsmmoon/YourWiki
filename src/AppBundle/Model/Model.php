@@ -27,7 +27,7 @@ class Model
 
     private function addCommand($parameters)
     {
-        if (!array_key_exists("title", $parameters)) {
+        if (!$this->hasParameter("title", $parameters)) {
             return;
         } else if ($this->findIndexOf($parameters["title"])) {
             return;
@@ -47,5 +47,10 @@ class Model
     {
         $obj = strtolower($obj);
         return array_key_exists($obj, $this->index);
+    }
+
+    private function hasParameter($parameter, $parameters)
+    {
+        return array_key_exists($parameter, $parameters);
     }
 }
